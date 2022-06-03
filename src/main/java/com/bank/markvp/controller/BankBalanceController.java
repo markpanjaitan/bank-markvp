@@ -14,15 +14,18 @@ import com.bank.markvp.service.BankBalanceService;
 @RequestMapping("/bank-balance")
 public class BankBalanceController {
 
-    private final BankBalanceService bankBalanceService;
+	@Autowired
+    private BankBalanceService bankBalanceService;
 
-    @Autowired
-    public BankBalanceController(BankBalanceService bankBalanceService) {
-        this.bankBalanceService = bankBalanceService;
-    }
-
-    @GetMapping(value = "/{bankBalanceId}", produces = "application/json")
-    public ResponseEntity<BankBalance> getBankBalanceById(@PathVariable("bankBalanceId") Long bankBalanceId){
+    @GetMapping(value = "/local/{bankBalanceId}", produces = "application/json")
+    public ResponseEntity<BankBalance> getBankBalanceById(@PathVariable("bankBalanceId") Long bankBalanceId) throws Exception{
+    	
         return ResponseEntity.ok(bankBalanceService.getBankBalanceById(bankBalanceId));
     }
+    
+    @GetMapping(value = "/store/{bankBalanceId}", produces = "application/json")
+    public ResponseEntity<BankBalance> getBankBalanceByIdFromStore(@PathVariable("bankBalanceId") Long bankBalanceId){
+    	
+        return ResponseEntity.ok(bankBalanceService.getBankBalanceByIdFromStore(bankBalanceId));
+    }    
 }

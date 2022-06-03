@@ -19,12 +19,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
 @Table(name = "bank_balance")
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class BankBalance {
 
 	@Id
@@ -38,10 +43,10 @@ public class BankBalance {
 	private Date lastUpdate;
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	// @Column(name = "latest_transaction")
 	@JoinColumn(name = "latest_transaction")
 	private BankTransaction latestTransaction;
 
+	@JsonIgnore
 	public BankBalance process(BankTransaction bankTransaction) {
 
 		this.id = bankTransaction.getBalanceId();

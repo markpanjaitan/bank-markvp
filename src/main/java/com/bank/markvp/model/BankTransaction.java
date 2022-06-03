@@ -1,6 +1,10 @@
 package com.bank.markvp.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,12 +30,13 @@ import javax.persistence.Table;
 @Builder(toBuilder = true)
 @Entity
 @Table(name = "bank_transaction")
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
 public class BankTransaction implements Comparable<BankTransaction> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
+	
 	@Column(name = "balance_id")
 	private Long balanceId;
 
@@ -45,9 +50,11 @@ public class BankTransaction implements Comparable<BankTransaction> {
 	public Date time;
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "latestTransaction")
+	@JsonIgnore
 	private BankBalance bankBalance;
 
 	@Builder.Default
+	@JsonIgnore
 	public BankTransactionState state = BankTransactionState.CREATED;
 
 	@Override

@@ -39,7 +39,7 @@ public class BankMarkvpApplication implements CommandLineRunner {
 		System.out.println("-----------Test Hibernate Native Query---------");		
 		if(listBalance.size() == 0) {
 			
-			// create new data
+			// if local db is empty then create new sample data
 	    	BankBalance bankBalance = new BankBalance();
 	    	
 	    	bankBalance.setAmount(new BigDecimal(10000));
