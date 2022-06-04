@@ -6,7 +6,7 @@ https://github.com/markpanjaitan/bank-markvp.git
 ######bank-markvp is an app that streams the customer's bank balance & transaction.
 
 ## Pre-Requisites
-1. Java 15
+1. Java 17
 2. MySQL Database
 3. Maven
 4. Docker
