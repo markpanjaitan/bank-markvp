@@ -1,5 +1,8 @@
 package com.bank.markvp.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.kafka.common.errors.ResourceNotFoundException;
 import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.StoreQueryParameters;
@@ -10,6 +13,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.bank.markvp.model.BankBalance;
+import com.bank.markvp.model.BankTransaction;
 import com.bank.markvp.repository.BankBalanceRepository;
 import com.bank.markvp.repository.BankTransactionRepository;
 import com.bank.markvp.topology.BankBalanceTopology;
@@ -32,7 +36,6 @@ public class BankBalanceService {
         this.kafkaStreams = kafkaStreams;
     }
 
-	@Cacheable("BankBalance")
     public BankBalance getBankBalanceById(Long bankBalanceId) throws Exception {
     	
     	BankBalance bankBalance = new BankBalance();
@@ -58,4 +61,15 @@ public class BankBalanceService {
                 )
         );
     }
+    
+	@Cacheable("BankTransaction")
+    public List<BankTransaction> getAllTransactionsByBalanceId(Long bankBalanceId) throws Exception {
+    	
+		List<BankTransaction> listResult = new ArrayList<BankTransaction>();
+		
+    	System.out.println("Querying from database..");
+    	listResult = bankTransactionRepository.findAllByBalanceId(bankBalanceId);
+    	
+    	return listResult;
+    }    
 }

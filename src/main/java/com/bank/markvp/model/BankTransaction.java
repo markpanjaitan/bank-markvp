@@ -10,6 +10,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -31,7 +32,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "bank_transaction")
 @JsonIgnoreProperties({"hibernateLazyInitializer"})
-public class BankTransaction implements Comparable<BankTransaction> {
+public class BankTransaction implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,6 +58,7 @@ public class BankTransaction implements Comparable<BankTransaction> {
 	@JsonIgnore
 	public BankTransactionState state = BankTransactionState.CREATED;
 
+	/*
 	@Override
 	public int compareTo(BankTransaction o) {
 		var r = o.time.compareTo(this.time);
@@ -64,6 +66,7 @@ public class BankTransaction implements Comparable<BankTransaction> {
 			return o.id.compareTo(this.id);
 		return r;
 	}
+	*/
 
 	public static enum BankTransactionState {
 		CREATED, APPROVED, REJECTED

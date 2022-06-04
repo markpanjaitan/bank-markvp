@@ -1,5 +1,7 @@
 package com.bank.markvp.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bank.markvp.ResourceNotFoundException;
 
 import com.bank.markvp.model.BankBalance;
+import com.bank.markvp.model.BankTransaction;
 import com.bank.markvp.service.BankBalanceService;
 
 @RestController
@@ -21,7 +24,6 @@ public class BankBalanceController {
     private BankBalanceService bankBalanceService;
 
     @GetMapping(value = "/local/{bankBalanceId}")
-    @Cacheable(value = "BankBalance", key = "#bankBalanceId")
     public BankBalance getBankBalanceById(@PathVariable("bankBalanceId") Long bankBalanceId) throws Exception{
         return bankBalanceService.getBankBalanceById(bankBalanceId);
     }
@@ -30,5 +32,11 @@ public class BankBalanceController {
     public ResponseEntity<BankBalance> getBankBalanceByIdFromStore(@PathVariable("bankBalanceId") Long bankBalanceId){
     	
         return ResponseEntity.ok(bankBalanceService.getBankBalanceByIdFromStore(bankBalanceId));
+    }    
+    
+    @GetMapping(value = "/{bankBalanceId}/transactions")
+    @Cacheable(value = "BankTransaction", key = "#bankBalanceId")
+    public List<BankTransaction> getAllTransactionsByBalanceId(@PathVariable("bankBalanceId") Long bankBalanceId) throws Exception{
+        return bankBalanceService.getAllTransactionsByBalanceId(bankBalanceId);
     }    
 }

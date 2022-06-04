@@ -40,21 +40,34 @@ public class BankMarkvpApplication implements CommandLineRunner {
 		
 		if(listBalance.size() == 0) {
 			
-			// if local db is empty then create new sample data
-	    	BankBalance bankBalance = new BankBalance();
+			// if local db is empty then create new sample data	    	
+	    	BankTransaction trans1 = new BankTransaction();
+	    	trans1.setAmount(new BigDecimal(5000));
+	    	trans1.setBalanceId(Long.valueOf(1));
+	    	trans1.setConcept("transaksi1");
+	    	trans1.setTime(new Date());
 	    	
-	    	bankBalance.setAmount(new BigDecimal(10000));
-	    	bankBalance.setLastUpdate(new Date());
+	    	BankTransaction trans2 = new BankTransaction();
+	    	trans2.setAmount(new BigDecimal(2500));
+	    	trans2.setBalanceId(Long.valueOf(1));
+	    	trans2.setConcept("transaksi2");
+	    	trans2.setTime(new Date());	    	
 	    	
-	    	BankTransaction latestBankTrans = new BankTransaction();
-	    	latestBankTrans.setAmount(new BigDecimal(5000));
-	    	latestBankTrans.setBalanceId(Long.valueOf(1));
-	    	latestBankTrans.setConcept("test1");
-	    	latestBankTrans.setTime(new Date());	    	
-	    	bankBalance.setLatestTransaction(latestBankTrans);
-	    	bankBalanceRepository.save(bankBalance);			
+	    	BankTransaction trans3 = new BankTransaction();
+	    	trans3.setAmount(new BigDecimal(1000));
+	    	trans3.setBalanceId(Long.valueOf(1));
+	    	trans3.setConcept("transaksi3");
+	    	trans3.setTime(new Date());	
 	    	
-	    	bankTransactionRepository.save(latestBankTrans);
+	    	BankBalance bankBalance1 = new BankBalance();
+	    	bankBalance1.setLatestTransaction(trans3);		    	
+	    	bankBalance1.setAmount(new BigDecimal(8500));
+	    	bankBalance1.setLastUpdate(new Date());
+	    	bankBalanceRepository.save(bankBalance1);
+	    	
+	    	bankTransactionRepository.save(trans1);
+	    	bankTransactionRepository.save(trans2);	    
+	    	bankTransactionRepository.save(trans3);	    	
 	    	
 	    	listBalance.clear();
 	    	

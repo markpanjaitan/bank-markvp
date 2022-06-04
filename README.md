@@ -38,15 +38,15 @@ mvnw compile exec:java -Dexec.mainClass="com.bank.markvp.BankTransactionProducer
 ```
 
 ## Guides :
-REST API : Get balance from local database
-
-```
-http://localhost:8080/bank-balance/local/1
-```
 REST API : Get balance from state-store (Kafka)
 
 ```
 http://localhost:8080/bank-balance/store/1
+```
+REST API : Get Transactions from local database (Cacheable)
+
+```
+http://localhost:8080/bank-balance/1/transactions
 ```
 
 * The value from state-store will be different before and after using Transaction Producer.
