@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -30,7 +31,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Entity
 @Table(name = "bank_balance")
 @JsonIgnoreProperties({"hibernateLazyInitializer"})
-public class BankBalance {
+public class BankBalance implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,7 +47,6 @@ public class BankBalance {
 	@JoinColumn(name = "latest_transaction")
 	private BankTransaction latestTransaction;
 
-	@JsonIgnore
 	public BankBalance process(BankTransaction bankTransaction) {
 
 		this.id = bankTransaction.getBalanceId();

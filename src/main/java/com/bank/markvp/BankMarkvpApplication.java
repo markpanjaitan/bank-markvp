@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 
 import com.bank.markvp.model.BankBalance;
 import com.bank.markvp.model.BankTransaction;
@@ -16,6 +17,7 @@ import com.bank.markvp.repository.BankBalanceRepository;
 import com.bank.markvp.repository.BankTransactionRepository;
 
 @SpringBootApplication
+@EnableCaching
 public class BankMarkvpApplication implements CommandLineRunner {
 
 	@Autowired
@@ -35,8 +37,7 @@ public class BankMarkvpApplication implements CommandLineRunner {
 		
 		List<BankBalance> listBalance = new ArrayList<BankBalance>();
 		listBalance = bankBalanceRepository.findAll();
-	
-		System.out.println("-----------Test Hibernate Native Query---------");		
+		
 		if(listBalance.size() == 0) {
 			
 			// if local db is empty then create new sample data
@@ -60,18 +61,11 @@ public class BankMarkvpApplication implements CommandLineRunner {
 	    	listBalance = bankBalanceRepository.findAll();
 	    	
 	        for(BankBalance bb : listBalance) {
+	        	System.out.println("Create sample data to local db..");
 	            System.out.println("ID : " + bb.getId());
 	            System.out.println("Jumlah : " + bb.getAmount());
 	            System.out.println("Last Update : " + bb.getLastUpdate());
 	        }	    	
-		}else if(listBalance.size() > 0) {
-			listBalance = bankBalanceRepository.testNativeQuery(Long.valueOf(1));
-
-	        for(BankBalance bb : listBalance) {
-	            System.out.println("ID : " + bb.getId());
-	            System.out.println("Jumlah : " + bb.getAmount());
-	            System.out.println("Last Update : " + bb.getLastUpdate());
-	        }
 		}
         
 	}

@@ -6,6 +6,7 @@ import org.apache.kafka.streams.StoreQueryParameters;
 import org.apache.kafka.streams.state.QueryableStoreTypes;
 import org.apache.kafka.streams.state.ReadOnlyKeyValueStore;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.bank.markvp.model.BankBalance;
@@ -23,16 +24,19 @@ public class BankBalanceService {
 	private BankTransactionRepository bankTransactionRepository;		
 	
     private final KafkaStreams kafkaStreams;
+    
+	public static final String HASH_KEY = "BankBalance";    
 
     @Autowired
     public BankBalanceService(KafkaStreams kafkaStreams) {
         this.kafkaStreams = kafkaStreams;
     }
 
+	@Cacheable("BankBalance")
     public BankBalance getBankBalanceById(Long bankBalanceId) throws Exception {
     	
     	BankBalance bankBalance = new BankBalance();
-    	
+    	System.out.println("Querying from database..");
     	bankBalance = bankBalanceRepository.findById(bankBalanceId).orElseThrow(
 				() -> new Exception("Not found")
 		);
